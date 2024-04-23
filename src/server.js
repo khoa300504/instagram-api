@@ -1,21 +1,25 @@
 /* eslint-disable no-console */
 import express from 'express'
-import { CONNECT_DB, GET_DB, CLOSE_DB } from './config/mongodb'
+import { CONNECT_DB, CLOSE_DB } from './config/mongodb'
 import existHook from 'async-exit-hook'
 import { env } from './config/environment'
+import { APIs_V1 } from '~/routes/v1'
+import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
+import cookieParser from 'cookie-parser'
 
 const START_SEVER = () => {
-  const hostname = 'localhost'
-  const port = 8017
   const app = express()
 
-  app.get('/', async (req, res) => {
-    console.log(await GET_DB().listCollections().toArray())
-    res.end('<h1>Hello World!</h1><hr>')
-  })
+  app.use(express.json())
+  // app.use(express.urlencoded({ extended: true }))
+  app.use(cookieParser())
 
-  app.listen(port, hostname, () => {
-    console.log(`3.Backend server is running at http://${ hostname }:${ port }/`)
+  app.use('/v1', APIs_V1)
+
+  app.use(errorHandlingMiddleware)
+
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
+    console.log(`3.Backend server is running at http://${ env.APP_HOST }:${ env.APP_PORT }/`)
   })
 
   existHook(() => {
@@ -29,7 +33,7 @@ const START_SEVER = () => {
   try {
     console.log('1.Connecting to MongoDB Clound Atlas...')
     await CONNECT_DB()
-    console.log('2. Connected to MongoDb Atlas!')
+    console.log('2.Connected to MongoDb Atlas!')
 
     START_SEVER()
   } catch (error) {
@@ -37,12 +41,3 @@ const START_SEVER = () => {
     process.exit(0)
   }
 })()
-
-// console.log('1.Connecting to MongoDB Clound Atlas...')
-// CONNECT_DB()
-//   .then(() => console.log('2. Connected to MongoDb Atlas!'))
-//   .then(() => START_SEVER())
-//   .catch(error => {
-//     console.error(error)
-//     process.exit(0)
-//   })
