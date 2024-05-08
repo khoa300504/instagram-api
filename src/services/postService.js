@@ -1,6 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
 import { postModel } from '~/models/postModel'
 import ApiError from '~/utils/ApiError'
+import { app, storage } from '~/config/firebase'
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/storage'
 
 const getPost = async (reqParams) => {
   try {
@@ -13,6 +17,7 @@ const CreateNew = async (reqUserId, reqBody) => {
   try {
     const postId = reqUserId
     const postData = reqBody
+    const postPic = postData.postPic
     const newPost = await postModel.createNew(postId, postData)
     return await postModel.findOneById(newPost.insertedId)
   } catch (error) { throw error }
@@ -34,8 +39,6 @@ const LikeUnlike = async (reqUserId, reqParams) => {
   try {
     const userId = reqUserId
     const postId = reqParams
-    const likes = await postModel.findOneById(postId)
-    console.log('🚀 ~ LikeUnlike ~ likes:', likes)
     const isLiked = (await (postModel.findOneById(postId))).likes.some(id => id.equals(userId))
     if (!isLiked)
     {

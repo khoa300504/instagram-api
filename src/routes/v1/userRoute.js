@@ -23,4 +23,7 @@ Router.route('/follow/:id')
 Router.route('/update/:id')
   .put(protectRoute, userValidation.updateProfile, userController.updateProfile)
 
+Router.route('/feed')
+  .get(protectRoute, userController.GetFeed)
+
 export const userRoutes = Router

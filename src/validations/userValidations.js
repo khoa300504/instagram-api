@@ -13,7 +13,7 @@ const SignUp = async (req, res, next) => {
     await correctCondition.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
-    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, 'Please check your input'))
   }
 }
 
@@ -26,7 +26,7 @@ const SignIn = async (req, res, next) => {
     await correctCondition.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
-    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, 'Please check your input'))
   }
 }
 
@@ -42,7 +42,7 @@ const updateProfile = async (req, res, next) => {
     await correctCondition.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
-    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, 'Please check your input'))
   }
 }
 

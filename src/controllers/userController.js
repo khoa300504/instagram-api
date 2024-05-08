@@ -27,7 +27,7 @@ const SignIn = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    res.cookie('author', '', { maxAge: 1 })
+    res.cookie('jwt', '', { maxAge: 1 })
     res.status(StatusCodes.OK).json({ message: 'Logged out successfully' })
   } catch (error) { next(error) }
 }
@@ -46,11 +46,19 @@ const updateProfile = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
+const GetFeed = async (req, res, next) => {
+  try {
+    const result = await userService.GetFeed(req.user._id)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
 export const userController = {
   SignUp,
   SignIn,
   logout,
   followUnfollow,
   updateProfile,
-  getProfile
+  getProfile,
+  GetFeed
 }

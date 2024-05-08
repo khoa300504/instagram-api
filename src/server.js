@@ -6,13 +6,15 @@ import { env } from './config/environment'
 import { APIs_V1 } from '~/routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import { corsOptions } from './config/cors'
 
 const START_SEVER = () => {
   const app = express()
-
   app.use(express.json())
-  // app.use(express.urlencoded({ extended: true }))
   app.use(cookieParser())
+  app.use(cors(corsOptions))
+  // app.use(express.urlencoded({ extended: true }))
 
   app.use('/v1', APIs_V1)
 

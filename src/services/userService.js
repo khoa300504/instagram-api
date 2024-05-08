@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { ObjectId } from 'mongodb'
+import { postModel } from '~/models/postModel'
 
 const getProfile = async (reqParamsId) => {
   try {
@@ -89,10 +90,19 @@ const updateProfile = async (reqUserId, reqParamsId, reqBody) => {
   } catch (error) { throw error }
 }
 
+const GetFeed = async (reqUserId) => {
+  try {
+    const followedIds = (await userModel.findOneById(reqUserId)).following
+    const followingPost = await postModel.findManyById(followedIds)
+    return followingPost
+  } catch (error) { throw error }
+}
+
 export const userService = {
   getProfile,
   SignUp,
   SignIn,
   followUnfollow,
-  updateProfile
+  updateProfile,
+  GetFeed
 }

@@ -31,6 +31,18 @@ const findOneById = async (postId) => {
   } catch (error) {throw new Error(error)}
 }
 
+const findManyById = async (userIds) => {
+  try {
+    return await GET_DB().collection(POST_COLLECTION_NAME).aggregate([
+      {
+        $match: {
+          userId: { $in: userIds }
+        }
+      }
+    ]).toArray()
+  } catch (error) {throw new Error(error)}
+}
+
 const createNew = async (userId, postData) => {
   try {
     const validData = await validateBeforeCreate({ userId: userId.toString(),
@@ -111,6 +123,7 @@ export const postModel = {
   deleteOneById,
   pushLike,
   pullLike,
-  pushReply
+  pushReply,
+  findManyById
   // pullReply
 }

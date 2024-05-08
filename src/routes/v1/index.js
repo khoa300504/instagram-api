@@ -6,7 +6,7 @@ import { userRoutes } from './userRoute'
 const Router = express.Router()
 
 Router.get('/status', (req, res) => {
-  res.status(StatusCodes.OK).json({ message: 'Sever is ready to use' })
+  res.status(StatusCodes.OK).json({ message: 'Server is ready to use' })
 })
 
 Router.use('/posts', postRoutes)
