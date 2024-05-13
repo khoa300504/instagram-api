@@ -5,11 +5,12 @@ import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validators'
 
 const USER_COLLECTION_NAME = 'users'
 const USER_COLLECTION_SCHEMA = Joi.object({
-  displayName: Joi.string().min(6).max(20).required().trim().strict(),
-  username: Joi.string().min(8).max(16).required().alphanum().trim().strict(),
+  fullname: Joi.string().min(6).max(50).required().trim().strict(),
+  username: Joi.string().min(6).max(30).required().alphanum().trim().strict(),
   email: Joi.string().min(17).max(25).required().trim().strict(),
   password: Joi.string().required().trim().strict(),
-  bio: Joi.string().min(3).max(256).trim().strict().default(null),
+  displayName: Joi.string().min(6).max(20).trim().strict().default(''),
+  bio: Joi.string().min(3).max(256).trim().strict().default(''),
   userPic: Joi.string().trim().strict().default('https://firebasestorage.googleapis.com/v0/b/bookingticketapp-4194d.appspot.com/o/userPicDefault.jpg?alt=media&token=db698a11-86fb-4029-8f83-a872438b4903'),
   follower: Joi.array().items(
     Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)

@@ -48,7 +48,7 @@ const updateProfile = async (req, res, next) => {
 
 const GetFeed = async (req, res, next) => {
   try {
-    const result = await userService.GetFeed(req.user._id)
+    const result = await userService.GetFeed(req?.user?._id)
     res.status(StatusCodes.OK).json(result)
   } catch (error) { next(error) }
 }

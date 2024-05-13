@@ -22,7 +22,6 @@ const SignUp = async (reqBody) => {
     {
       throw new ApiError(StatusCodes.CONFLICT, 'User already exist!')
     }
-
     const salt = await bcrypt.genSalt(8)
     userInfo.password = await bcrypt.hash(userInfo.password, salt)
 
@@ -77,6 +76,11 @@ const updateProfile = async (reqUserId, reqParamsId, reqBody) => {
   try {
     const currentUserId = reqUserId
     const userUpdate = reqParamsId
+    if (reqBody.password)
+    {
+      const salt = await bcrypt.genSalt(8)
+      reqBody.password = await bcrypt.hash(reqBody.password, salt)
+    }
     const updateData = {
       ...reqBody,
       updatedAt: Date.now()
