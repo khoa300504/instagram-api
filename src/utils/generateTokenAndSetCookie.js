@@ -7,8 +7,8 @@ const generateTokenAndSetCookie = (userId, res) => {
   })
 
   res.cookie(env.COOKIE_NAME, token, {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    sameSite: 'strict'
+    httpOnly: true,
+    maxAge: 30 * 24 * 60 * 60 * 1000
   })
 
   return token
