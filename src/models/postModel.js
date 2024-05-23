@@ -43,6 +43,12 @@ const findManyById = async (userIds) => {
   } catch (error) {throw new Error(error)}
 }
 
+const findAllById = async (userId) => {
+  try {
+    return await GET_DB().collection(POST_COLLECTION_NAME).find({ userId: new ObjectId(userId) }).toArray()
+  } catch (error) {throw new Error(error)}
+}
+
 const createNew = async (userId, postData) => {
   try {
     const validData = await validateBeforeCreate({ userId: userId.toString(),
@@ -124,6 +130,7 @@ export const postModel = {
   pushLike,
   pullLike,
   pushReply,
-  findManyById
+  findManyById,
+  findAllById
   // pullReply
 }

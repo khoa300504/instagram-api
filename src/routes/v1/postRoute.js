@@ -8,6 +8,9 @@ const Router = express.Router()
 Router.route('/:id')
   .get(postController.getPost)
 
+Router.route('/userpost/:id')
+  .get(postController.getUserPost)
+
 Router.route('/create')
   .post(protectRoute, postValidation.CreateNew, postController.CreateNew)
 

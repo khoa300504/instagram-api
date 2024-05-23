@@ -6,10 +6,17 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/storage'
 
-const getPost = async (reqParams) => {
+const getPost = async (reqParamsId) => {
   try {
-    const postId = reqParams
+    const postId = reqParamsId
     return await postModel.findOneById(postId)
+  } catch (error) { throw error }
+}
+
+const getUserPost = async (reqParamsId) => {
+  try {
+    const userId = reqParamsId
+    return await postModel.findAllById(userId)
   } catch (error) { throw error }
 }
 
@@ -17,7 +24,7 @@ const CreateNew = async (reqUserId, reqBody) => {
   try {
     const postId = reqUserId
     const postData = reqBody
-    const postPic = postData.postPic
+    // const postPic = postData.postPic
     const newPost = await postModel.createNew(postId, postData)
     return await postModel.findOneById(newPost.insertedId)
   } catch (error) { throw error }
@@ -79,7 +86,8 @@ export const postService = {
   getPost,
   CreateNew,
   DeletePost,
-  LikeUnlike
+  LikeUnlike,
+  getUserPost
   // AddReply,
   // DeleteReply
 }

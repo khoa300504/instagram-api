@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { corsOptions } from './config/cors'
 
-const START_SEVER = () => {
+const START_SERVER = () => {
   const app = express()
   app.use(express.json())
   app.use(cookieParser())
@@ -20,9 +20,15 @@ const START_SEVER = () => {
 
   app.use(errorHandlingMiddleware)
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    console.log(`3.Backend server is running at http://${ env.APP_HOST }:${ env.APP_PORT }/`)
-  })
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.PORT, () => {
+      console.log(`3. Hi ${env.AUTHOR}, Back-end server is running successfully at PORT: ${process.env.PORT}`)
+    })
+  } else {
+    app.listen(env.APP_PORT, env.APP_HOST, () => {
+      console.log(`Local Dev: 3. Hi ${env.AUTHOR}, Back-end server is running successfully at Host: ${env.APP_HOST} and Port: ${env.APP_PORT}`)
+    })
+  }
 
   existHook(() => {
     console.log('4.Disconnecting from MongoDb Clound Atlas...')
@@ -37,7 +43,7 @@ const START_SEVER = () => {
     await CONNECT_DB()
     console.log('2.Connected to MongoDb Atlas!')
 
-    START_SEVER()
+    START_SERVER()
   } catch (error) {
     console.error(error)
     process.exit(0)

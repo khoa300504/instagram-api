@@ -4,7 +4,14 @@ import { postService } from '~/services/postService'
 const getPost = async (req, res, next) => {
   try {
     const post = await postService.getPost(req.params.id)
-    res.status(StatusCodes.OK).json({ post })
+    res.status(StatusCodes.OK).json(post)
+  } catch (error) { next(error) }
+}
+
+const getUserPost = async (req, res, next) => {
+  try {
+    const userPosts = await postService.getUserPost(req.params.id)
+    res.status(StatusCodes.OK).json(userPosts)
   } catch (error) { next(error) }
 }
 
@@ -47,7 +54,8 @@ export const postController = {
   getPost,
   CreateNew,
   DeletePost,
-  LikeUnlike
+  LikeUnlike,
+  getUserPost
   // AddReply,
   // DeleteReply
 }
