@@ -12,7 +12,7 @@ const getProfile = async (reqParamsId) => {
   } catch (error) { throw error }
 }
 
-const SignUp = async (reqBody) => {
+const signUp = async (reqBody) => {
   try {
     const userInfo = {
       ...reqBody
@@ -31,7 +31,7 @@ const SignUp = async (reqBody) => {
   } catch (error) { throw error }
 }
 
-const SignIn = async (reqBody) => {
+const signIn = async (reqBody) => {
   try {
     const userInfo = {
       ...reqBody
@@ -94,7 +94,7 @@ const updateProfile = async (reqUserId, reqParamsId, reqBody) => {
   } catch (error) { throw error }
 }
 
-const GetFeed = async (reqUserId) => {
+const getFeed = async (reqUserId) => {
   try {
     const followedIds = (await userModel.findOneById(reqUserId)).following
     const followingPost = await postModel.findManyById(followedIds)
@@ -102,11 +102,32 @@ const GetFeed = async (reqUserId) => {
   } catch (error) { throw error }
 }
 
+const getUserForSideBar = async (reqUserId) => {
+  try {
+    const currentUserId = reqUserId
+    const userSideBar = await userModel.findManyOthers(currentUserId)
+    return userSideBar
+  } catch (error) { throw error }
+}
+
+const getSuggestUser = async (reqUser) => {
+  try {
+    const currentUser = reqUser
+    const currentUserId = currentUser._id
+    let knowUserIds = currentUser.following
+    knowUserIds.push(currentUserId)
+    const userSideBar = await userModel.findManyNe(knowUserIds)
+    return userSideBar
+  } catch (error) { throw error }
+}
+
 export const userService = {
   getProfile,
-  SignUp,
-  SignIn,
+  signUp,
+  signIn,
   followUnfollow,
   updateProfile,
-  GetFeed
+  getFeed,
+  getUserForSideBar,
+  getSuggestUser
 }

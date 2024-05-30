@@ -124,6 +124,24 @@ const update = async (userId, updateData) => {
   } catch (error) {throw new Error(error)}
 }
 
+const findManyOthers = async (currentUserId) => {
+  try {
+    const query = { _id: { $ne : new ObjectId(currentUserId) } }
+    const options = { projection: { password: 0 } }
+    const result = GET_DB().collection(USER_COLLECTION_NAME).find(query, options).toArray()
+    return result
+  } catch (error) {throw new Error(error)}
+}
+
+const findManyNe = async (knowUserIds) => {
+  try {
+    const query = { _id: { $nin : knowUserIds } }
+    const options = { projection: { password: 0 } }
+    const result = GET_DB().collection(USER_COLLECTION_NAME).find(query, options).toArray()
+    return result
+  } catch (error) {throw new Error(error)}
+}
+
 export const userModel = {
   getProfile,
   createNew,
@@ -133,5 +151,7 @@ export const userModel = {
   findLogged,
   pullFollow,
   pushFollow,
-  update
+  update,
+  findManyOthers,
+  findManyNe
 }

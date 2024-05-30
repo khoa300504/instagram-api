@@ -5,14 +5,20 @@ import protectRoute from '~/middlewares/protectRoute'
 
 const Router = express.Router()
 
+Router.route('/')
+  .get(protectRoute, userController.getUserForSideBar)
+
+Router.route('/suggest')
+  .get(protectRoute, userController.getSuggestUser)
+
 Router.route('/profile/:id')
   .get(userController.getProfile)
 
 Router.route('/signup')
-  .post(userValidation.SignUp, userController.SignUp)
+  .post(userValidation.signUp, userController.signUp)
 
 Router.route('/signin')
-  .post(userValidation.SignIn, userController.SignIn)
+  .post(userValidation.signIn, userController.signIn)
 
 Router.route('/logout')
   .post(userController.logout)
@@ -24,6 +30,6 @@ Router.route('/update/:id')
   .put(protectRoute, userValidation.updateProfile, userController.updateProfile)
 
 Router.route('/feed')
-  .get(protectRoute, userController.GetFeed)
+  .get(protectRoute, userController.getFeed)
 
 export const userRoutes = Router

@@ -9,17 +9,17 @@ const getProfile = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
-const SignUp = async (req, res, next) => {
+const signUp = async (req, res, next) => {
   try {
-    const createUser = await userService.SignUp(req.body)
+    const createUser = await userService.signUp(req.body)
     generateTokenAndSetCookie(createUser._id, res)
     res.status(StatusCodes.CREATED).json(createUser)
   } catch (error) { next(error) }
 }
 
-const SignIn = async (req, res, next) => {
+const signIn = async (req, res, next) => {
   try {
-    const user = await userService.SignIn(req.body)
+    const user = await userService.signIn(req.body)
     generateTokenAndSetCookie(user._id, res)
     res.status(StatusCodes.OK).json(user)
   } catch (error) { next(error) }
@@ -46,19 +46,35 @@ const updateProfile = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
-const GetFeed = async (req, res, next) => {
+const getFeed = async (req, res, next) => {
   try {
-    const result = await userService.GetFeed(req?.user?._id)
+    const result = await userService.getFeed(req?.user?._id)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
+const getUserForSideBar = async (req, res, next) => {
+  try {
+    const result = await userService.getUserForSideBar(req.user._id)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
+const getSuggestUser = async (req, res, next) => {
+  try {
+    const result = await userService.getSuggestUser(req.user)
     res.status(StatusCodes.OK).json(result)
   } catch (error) { next(error) }
 }
 
 export const userController = {
-  SignUp,
-  SignIn,
+  signUp,
+  signIn,
   logout,
   followUnfollow,
   updateProfile,
   getProfile,
-  GetFeed
+  getFeed,
+  getUserForSideBar,
+  getSuggestUser
 }

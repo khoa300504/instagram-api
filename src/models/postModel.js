@@ -89,22 +89,22 @@ const pushLike = async (postId, userId) => {
   } catch (error) {throw new Error(error)}
 }
 
-const pushReply = async (postId, user, replyContent) => {
-  try {
-    const replyData = {
-      userId: new ObjectId(user._id),
-      content: replyContent,
-      userPic: user.userPic,
-      createdAt: Date.now()
-    }
-    const result = await GET_DB().collection(POST_COLLECTION_NAME).findOneAndUpdate(
-      { _id: new ObjectId(postId) },
-      { $push: { comments: replyData } },
-      { returnDocument: 'after' }
-    )
-    return result
-  } catch (error) {throw new Error(error)}
-}
+// const pushReply = async (postId, user, replyContent) => {
+//   try {
+//     const replyData = {
+//       userId: new ObjectId(user._id),
+//       content: replyContent,
+//       userPic: user.userPic,
+//       createdAt: Date.now()
+//     }
+//     const result = await GET_DB().collection(POST_COLLECTION_NAME).findOneAndUpdate(
+//       { _id: new ObjectId(postId) },
+//       { $push: { comments: replyData } },
+//       { returnDocument: 'after' }
+//     )
+//     return result
+//   } catch (error) {throw new Error(error)}
+// }
 
 // const pullReply = async (postId, user, replyContent) => {
 //   try {
@@ -129,7 +129,7 @@ export const postModel = {
   deleteOneById,
   pushLike,
   pullLike,
-  pushReply,
+  // pushReply,
   findManyById,
   findAllById
   // pullReply
