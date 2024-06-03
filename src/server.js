@@ -8,9 +8,9 @@ import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { corsOptions } from './config/cors'
+import { app, server } from '~/socket/socket'
 
 const START_SERVER = () => {
-  const app = express()
   app.use(express.json())
   app.use(cookieParser())
   app.use(cors(corsOptions))
@@ -21,11 +21,11 @@ const START_SERVER = () => {
   app.use(errorHandlingMiddleware)
 
   if (env.BUILD_MODE === 'production') {
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`3. Hi ${env.AUTHOR}, Back-end server is running successfully at PORT: ${process.env.PORT}`)
     })
   } else {
-    app.listen(env.APP_PORT, env.APP_HOST, () => {
+    server.listen(env.APP_PORT, env.APP_HOST, () => {
       console.log(`Local Dev: 3. Hi ${env.AUTHOR}, Back-end server is running successfully at Host: ${env.APP_HOST} and Port: ${env.APP_PORT}`)
     })
   }

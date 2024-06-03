@@ -28,7 +28,8 @@
     "http-status-codes": "^2.3.0",
     "joi": "^17.12.3",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.6.2"
+    "mongodb": "^6.6.2",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
